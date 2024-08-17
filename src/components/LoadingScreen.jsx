@@ -1,91 +1,84 @@
-import { createSignal, createEffect, onCleanup } from "solid-js";
-import { twMerge } from "tailwind-merge";
+import { Show, createSignal, createEffect, children } from "solid-js";
 
-const LoadingScreenContainer = (props) => {
-    const [visible, setVisible] = createSignal(true);
-
-    setTimeout(() => setVisible(false), props.delay * 100 + 200);
-
+const LoadingScreenEndingSplash = () => {
     return (
-        <div class={twMerge("bg-gradient-to-r from-bg-loading-edge via-bg-loading-center to-bg-loading-edge w-screen h-screen content-center", visible() ? "opacity-100" : "duration-300 opacity-0")}>
-            <div class="flex justify-center">
-                {props.children}
+        <div>
+            <div class="h-screen w-screen flex justify-center">
+                <div class="flex items-center">
+                    <div class="flex-col text-center">
+                        <div class="flex justify-center">
+                            <img src="/images/loading/explosion.webp" class="w-[240px]" />
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
-};
+}
 
-const TypeWriter = (props) => {
-    const [displayText, setDisplayText] = createSignal("");
-
-    createEffect(() => {
-        let index = 0;
-        const typeWriterInterval = setInterval(() => {
-            if (index < props.text.length) {
-                setDisplayText((prev) => props.text.substring(0, index + 1));
-                index++;
-            } else {
-                clearInterval(typeWriterInterval);
-            }
-        }, props.delay);
-
-        onCleanup(() => clearInterval(typeWriterInterval));
-    });
-
-    return <div class="font-['VT323'] text-[#fff] text-[17px] select-none flex-1">{displayText()}</div>;
-};
-
-const LoadingScreenBarSquare = () => <div class="w-[15px] bg-[#fff] mt-[3px] ml-[3px] mb-[3px]" />;
-
-const LoadingScreenBar = (props) => {
-    const [squares, setSquares] = createSignal([]);
+const LoadingScreenSplash = (props) => {
+    const imageSplashes = [
+        "/images/loading/splash1.webp",
+        "/images/loading/splash2.webp",
+        "/images/loading/splash3.webp",
+        "/images/loading/splash4.webp",
+    ];
+    const textPrompts = [
+        "code mitosis in progress...",
+        "distribute music & working hours...",
+        "this will definitely work...",
+        "our team excels at delegating....",
+        "kitty bifurcation happens...",
+    ];
+    const [text, setText] = createSignal(textPrompts[0]);
 
     createEffect(() => {
-        const barInterval = setInterval(() => {
-            setSquares((prev) => {
-                if (prev.length < props.count) {
-                    return [...prev, <LoadingScreenBarSquare />];
-                } else {
-                    clearInterval(barInterval);
-                    return prev;
-                }
-            });
-        }, 100);
+        let currentPrompt = 1;
 
-        onCleanup(() => clearInterval(barInterval));
+        const interval = setInterval(() => {
+            setText(textPrompts[currentPrompt]);
+            currentPrompt += 1;
+            if (currentPrompt >= textPrompts.length)
+                currentPrompt = 0;
+        }, 2000);
+
+        return () => clearInterval(interval);
     });
 
-    return <div class="w-[493px] h-[30px] border-[2px] border-[#fff] flex justify-start">{squares()}</div>;
-};
-
-const LoadingScreenPercent = (props) => {
-    const [percent, setPercent] = createSignal(0);
-
-    createEffect(() => {
-        let percentValue = 0;
-        const percentInterval = setInterval(() => {
-            if (percentValue <= 100) {
-                setPercent(percentValue++); // Increment should be postfix
-            }
-        }, props.delay);
-
-        onCleanup(() => clearInterval(percentInterval));
-    });
-
-    return <div class="font-['VT323'] text-[#fff] text-[17px] select-none text-right">{percent()}%</div>;
+    return (
+        <Show when={props.visibility()}>
+            <Show when={props.loadingScreen()} fallback={<LoadingScreenEndingSplash />}>
+                <div>
+                    <div class="h-screen w-screen flex justify-center">
+                        <div class="flex items-center">
+                            <div class="flex-col text-center">
+                                <div class="flex justify-center">
+                                    <img src={imageSplashes[Math.floor(Math.random() * imageSplashes.length)]} alt="aaaah cool kitten mitosis" class="object-contain max-w-[240px]" />
+                                </div>
+                                <p class="text-white font-michroma">{text()}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Show>
+        </Show>
+    );
 };
 
 export const LoadingScreen = (props) => {
-    const delay = 27;
+    const resolved = children(() => props.children)
+    const [visibility, setVisibility] = createSignal(true);
+
+    createEffect(() => {
+        const currentVisibility = props.visibility();
+        const timer = setTimeout(() => setVisibility(currentVisibility), 750);
+        return () => clearTimeout(timer);
+    });
+
     return (
-        <LoadingScreenContainer delay={delay}>
-            <div>
-                <div class="flex">
-                    <TypeWriter text={"Loading construct media components..."} delay={delay} />
-                    <LoadingScreenPercent delay={delay} />
-                </div>
-                <LoadingScreenBar count={delay} />
-            </div>
-        </LoadingScreenContainer>
+        <>
+            <LoadingScreenSplash visibility={visibility} loadingScreen={props.visibility} />
+            <Show when={visibility()} fallback={resolved()} />
+        </>
     );
 };

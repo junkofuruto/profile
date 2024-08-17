@@ -2,13 +2,24 @@ import { onMount, createSignal, onCleanup } from 'solid-js';
 import { createNoise3D } from 'simplex-noise';
 import createRAF from "@solid-primitives/raf";
 
+/**
+ * Background noise component that visualizing perlin noise.
+ * @param {number} blur Pixel displaced count.
+ * @param {double} speed Animation speed.
+ * @param {double} scale Noise scale.
+ * @param {number} dotSize Canvas pixel size.
+ * @param {number} gap Canvas pixel gap size.
+ * @param {number} hueBase Canvas pixel gap size.
+ * @param {number} hueRange Canvas pixel gap size.
+ */
 export const BackgroundNoise = (props) => {
     const [canvasRef, setCanvasRef] = createSignal(null);
     const noise = createNoise3D();
 
     onMount(() => {
         const canvas = canvasRef();
-        const ctx = canvas.getContext('2d');
+        canvas.style.webkitFilter = `blur(${props.blur}px)`;
+        const ctx = canvas.getContext('2d', { alpha: false });
         let w = ctx.canvas.width = window.innerWidth;
         let h = ctx.canvas.height = window.innerHeight;
         let [nt, setNt] = createSignal(0);
@@ -25,8 +36,8 @@ export const BackgroundNoise = (props) => {
             let noiseScale = props.scale;
             let dotSize = props.dotSize;
             let gap = props.gap;
-            let hueBase = 200;
-            let hueRange = 60;
+            let hueBase = props.hueBase;
+            let hueRange = props.hueRange;
 
             const draw = () => {
                 setNt(nt() + noiseSpeed);
@@ -35,16 +46,16 @@ export const BackgroundNoise = (props) => {
                         let yn = noise(y / noiseScale, x / noiseScale, nt()) * 20;
                         let cn = lerp(hueRange, yn * hueRange, 0.2);
 
-                        ctx.beginPath();
+                        //ctx.beginPath();
                         ctx.fillStyle = `hsla(${hueBase + cn}, 50%, 50%, ${yn})`;
                         ctx.fillRect(x, y, dotSize, dotSize);
-                        ctx.closePath();
+                        //ctx.closePath();
                     }
                 }
             };
 
             const clear = () => {
-                ctx.fillStyle = 'rgba(0,0,0,1)';
+                ctx.fillStyle = 'rgba(0,0,0,0.1)';
                 ctx.fillRect(0, 0, w, h);
             };
 
@@ -56,7 +67,7 @@ export const BackgroundNoise = (props) => {
             draw();
         };
 
-        const [running, start, stop] = createRAF(() => render());
+        const [_, start, stop] = createRAF(() => render());
         start();
 
         onCleanup(() => {
@@ -65,7 +76,5 @@ export const BackgroundNoise = (props) => {
         });
     });
 
-    return (
-        <canvas ref={setCanvasRef}></canvas>
-    );
+    return <canvas ref={setCanvasRef} class="absolute inset-0 z-0" />;
 };
