@@ -7,5 +7,6 @@ export default defineConfig({
   {
     host: "192.168.0.10",
     port: "30080"
-  }
+  },
+  assetsInclude: ['**/*.glb', '**/*.gltf']
 })
