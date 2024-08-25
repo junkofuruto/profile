@@ -47,7 +47,7 @@ export const Header: Component = (props) => {
             <div class="absolute inset-0 noise md:h-[70px] h-[50px] opacity-30" />
             <header class="absolute w-screen md:h-[70px] h-[50px] transition-opacity">
                 <div class="flex items-center h-full md:mx-16 mx-8">
-                    <a href="/about" class="font-michroma text-white md:text-[2rem] text-[1rem] ">CMG</a>
+                    <a href="/about" class="font-michroma text-white md:text-[2rem] text-[1rem]">CMG</a>
                     <div class="flex justify-around flex-1 md:ml-[40px] ml-[2rem]">
                         <HeaderNavigationButton href="#hero" text="ABOUT" />
                         <HeaderNavigationButton href="#dev" text="DEV" />
