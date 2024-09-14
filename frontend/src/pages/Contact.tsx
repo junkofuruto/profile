@@ -31,8 +31,21 @@ const SubmitButton: Component<{
     name: Accessor<string>,
     mail: Accessor<string>,
 }> = (props) => {
-    const clickHandler = () => {
-        // TODO: actual code xd what am I waiting for
+    const clickHandler = async () => {
+        const response = await fetch("https://constructmg.ru/api/contact", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                type: props.projectType(),
+                name: props.name(),
+                email: props.mail(),
+                message: props.description()
+            })
+        });
+
+        console.log(response.status);
     };
 
     return (
