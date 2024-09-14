@@ -73,7 +73,7 @@ export const FlippingWords: Component = () => {
     return (
         <span ref={currentWordRef} >
             {words.map((word, index) => (
-                <span class={`word ${index % 5 === 0 ? 'website' : (index % 5 === 1 ? 'music' : (index % 5 === 2 ? 'video' : (index % 5 === 3 ? 'backend' : 'app')))} `}>
+                <span class={`word ${index % 5 === 0 ? 'website' : (index % 5 === 1 ? 'music' : (index % 5 === 2 ? 'video' : (index % 5 === 3 ? 'backend' : 'app')))} md:inline hidden`}>
                     {word}
                 </span>
             ))}

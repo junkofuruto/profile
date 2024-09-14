@@ -1,19 +1,17 @@
 import { createSignal, onMount, onCleanup, type Component } from "solid-js";
-import { twMerge } from "tailwind-merge";
-import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { BloomEffect, EffectComposer, EffectPass, RenderPass } from "postprocessing"
+import { EffectComposer, RenderPass } from "postprocessing";
+import * as THREE from "three";
 
 type SceneProps = {
     postion?: THREE.Vector3,
     rotation?: THREE.Euler,
     scale?: THREE.Vector3,
-    style?: string,
     model: string,
     delta: number
 };
 
-export const Scene = (props: SceneProps) => {
+export const Scene: Component<SceneProps> = (props) => {
     let containerRef: HTMLDivElement | null = null;
     const [renderer, setRenderer] = createSignal<THREE.WebGLRenderer>();
     const [scene, setScene] = createSignal<THREE.Scene>();
@@ -26,7 +24,7 @@ export const Scene = (props: SceneProps) => {
         const cameraInstance = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const rendererInstance = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         const composer = new EffectComposer(rendererInstance);
-        composer.addPass(new RenderPass(sceneInstance, cameraInstance))
+        composer.addPass(new RenderPass(sceneInstance, cameraInstance));
 
         rendererInstance.setSize(window.innerWidth, window.innerHeight);
         containerRef!.appendChild(rendererInstance.domElement);
@@ -50,9 +48,9 @@ export const Scene = (props: SceneProps) => {
             (loadedGltf) => {
                 gltf = loadedGltf.scene;
 
-                if (props.postion != undefined) gltf.position.set(props.postion.x, props.postion.y, props.postion.z);
-                if (props.rotation != undefined) gltf.rotation.set(props.rotation.x, props.rotation.y, props.rotation.z);
-                if (props.scale != undefined) gltf.scale.set(props.scale.x, props.scale.y, props.scale.z);
+                if (props.postion) gltf.position.set(props.postion.x, props.postion.y, props.postion.z);
+                if (props.rotation) gltf.rotation.set(props.rotation.x, props.rotation.y, props.rotation.z);
+                if (props.scale) gltf.scale.set(props.scale.x, props.scale.y, props.scale.z);
 
                 sceneInstance.add(gltf);
                 mixer = new THREE.AnimationMixer(gltf);
@@ -91,6 +89,10 @@ export const Scene = (props: SceneProps) => {
         });
     });
 
-    return <div ref={containerRef!} style="absolute" />;
-
+    return (
+        <div
+            ref={containerRef!}
+            style={{ position: "absolute", top: "0", left: "0", width: "100%", height: "100%" }}
+        />
+    );
 };
