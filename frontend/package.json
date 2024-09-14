@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --overlay==true",
-    "release": "vite --logLevel=silent --overlay=false"
+    "build": "vite build --overlay==true"
   },
   "dependencies": {
     "@solid-primitives/raf": "^2.1.16",

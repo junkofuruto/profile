@@ -4,9 +4,6 @@ import fs from 'fs';
 import path from 'path';
 
 export default defineConfig(() => {
-    const args = process.argv.slice(2);
-    const overlay = args.find(arg => arg.startsWith('--overlay=').split("=")[1]) === "true";
-
     return {
         plugins: [solid()],
         server:
@@ -18,7 +15,7 @@ export default defineConfig(() => {
                 cert: fs.readFileSync(path.resolve(__dirname, 'certs', 'cert.pem')),
             },
             hmr: {
-                overlay: overlay
+                overlay: false
             }
         },
         assetsInclude: ['**/*.glb', '**/*.gltf']
