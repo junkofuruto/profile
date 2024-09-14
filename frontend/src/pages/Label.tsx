@@ -14,7 +14,7 @@ const ArtistPage: Component<{ name: string, genre: string, image_url: string, hr
                     <p class="md:text-[3vw] text-[32px] uppercase">{props.name}</p>
                 </div>
             </div>
-            <div class="md:h-full h-[350px] max-w-[600px]">
+            <div class="md:h-full h-[350px] w-full">
                 <img
                     src={props.image_url}
                     alt={props.name}

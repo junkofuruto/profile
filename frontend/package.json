@@ -12,13 +12,9 @@
     "@solid-primitives/raf": "^2.1.16",
     "@solidjs/router": "^0.13.6",
     "@types/three": "^0.167.2",
-    "dat.gui": "^0.7.9",
-    "gsap": "^3.12.5",
-    "is-mobile": "^4.0.0",
     "postprocessing": "^6.36.0",
     "simplex-noise": "^4.0.3",
     "solid-js": "^1.8.17",
-    "solid-three": "^0.2.0",
     "tailwind-merge": "^2.3.0",
     "three": "^0.166.1"
   },
