@@ -1,6 +1,6 @@
 import { createSignal, onMount, onCleanup, type Component } from "solid-js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { EffectComposer, RenderPass } from "postprocessing";
+import { EffectComposer, RenderPass } from "postprocessing"
 import * as THREE from "three";
 
 type SceneProps = {
@@ -11,7 +11,7 @@ type SceneProps = {
     delta: number
 };
 
-export const Scene: Component<SceneProps> = (props) => {
+export const Scene = (props: SceneProps) => {
     let containerRef: HTMLDivElement | null = null;
     const [renderer, setRenderer] = createSignal<THREE.WebGLRenderer>();
     const [scene, setScene] = createSignal<THREE.Scene>();
@@ -24,7 +24,7 @@ export const Scene: Component<SceneProps> = (props) => {
         const cameraInstance = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const rendererInstance = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         const composer = new EffectComposer(rendererInstance);
-        composer.addPass(new RenderPass(sceneInstance, cameraInstance));
+        composer.addPass(new RenderPass(sceneInstance, cameraInstance))
 
         rendererInstance.setSize(window.innerWidth, window.innerHeight);
         containerRef!.appendChild(rendererInstance.domElement);
@@ -48,9 +48,9 @@ export const Scene: Component<SceneProps> = (props) => {
             (loadedGltf) => {
                 gltf = loadedGltf.scene;
 
-                if (props.postion) gltf.position.set(props.postion.x, props.postion.y, props.postion.z);
-                if (props.rotation) gltf.rotation.set(props.rotation.x, props.rotation.y, props.rotation.z);
-                if (props.scale) gltf.scale.set(props.scale.x, props.scale.y, props.scale.z);
+                if (props.postion != undefined) gltf.position.set(props.postion.x, props.postion.y, props.postion.z);
+                if (props.rotation != undefined) gltf.rotation.set(props.rotation.x, props.rotation.y, props.rotation.z);
+                if (props.scale != undefined) gltf.scale.set(props.scale.x, props.scale.y, props.scale.z);
 
                 sceneInstance.add(gltf);
                 mixer = new THREE.AnimationMixer(gltf);
@@ -89,10 +89,6 @@ export const Scene: Component<SceneProps> = (props) => {
         });
     });
 
-    return (
-        <div
-            ref={containerRef!}
-            style={{ position: "absolute", top: "0", left: "0", width: "100%", height: "100%" }}
-        />
-    );
+    return <div ref={containerRef!} style="absolute" />;
+
 };
