@@ -1,6 +1,6 @@
-import { createSignal, createEffect, Component } from "solid-js";
+import { createSignal, createEffect, Component, Show, Accessor } from "solid-js";
 
-export const LoadingScreen: Component = () => {
+export const LoadingScreen: Component<{ show?: Accessor<boolean> }> = (props) => {
     const imageSplashes = [
         "/images/loading/splash1.webp",
         "/images/loading/splash2.webp",
@@ -30,17 +30,22 @@ export const LoadingScreen: Component = () => {
     });
 
     return (
-        <div>
-            <div class="h-screen w-screen flex justify-center">
+        <Show when={props.show!()}>
+            <div class="fixed top-0 h-screen w-screen flex justify-center bg-black z-100">
                 <div class="flex items-center">
                     <div class="flex-col text-center">
                         <div class="flex justify-center">
-                            <img src={imageSplashes[Math.floor(Math.random() * imageSplashes.length)]} alt="aaaah cool kitten mitosis" class="object-contain max-w-[240px]" />
+                            <img
+                                src={imageSplashes[Math.floor(Math.random() * imageSplashes.length)]}
+                                alt="aaaah cool kitten mitosis"
+                                class="object-contain max-w-[240px]"
+                                loading="lazy"
+                                decoding="async" />
                         </div>
                         <p class="text-white font-michroma">{text()}</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </Show>
     );
 };

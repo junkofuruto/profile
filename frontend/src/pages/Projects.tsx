@@ -23,8 +23,16 @@ const ProjectCard: Component<ProjectCardProps> = (props: ProjectCardProps) => {
                     <p class="md:text-[3vw] text-[32px] uppercase">{props.name}</p>
                 </div>
             </div>
-            <div class="md:h-full h-[300px] bg-cover bg-center" style={`background-image: url('${imageUrl}')`} />
+            <div class="md:h-full h-[300px] overflow-hidden relative">
+                <img
+                    src={imageUrl}
+                    alt={props.name}
+                    class="absolute inset-0 h-full w-full object-cover"
+                    loading="lazy"
+                />
+            </div>
         </a>
+
     );
 };
 

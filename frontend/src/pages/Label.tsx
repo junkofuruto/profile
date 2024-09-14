@@ -3,7 +3,6 @@ import { LoadingScreen } from "../components/LoadingScreen";
 import { Header } from "../components/Header";
 import { data } from "../data";
 
-// LOTSMANOV FEDOR THANK YOU FOR YOUR CONTRIBUTION
 const ArtistPage: Component<{ name: string, genre: string, image_url: string, href: string }> = (props) => {
     return (
         <a class="md:grid md:grid-cols-3 h-[34vw] hover:bg-[#191919] duration-200" href={`${props.href}`}>
@@ -15,7 +14,14 @@ const ArtistPage: Component<{ name: string, genre: string, image_url: string, hr
                     <p class="md:text-[3vw] text-[32px] uppercase">{props.name}</p>
                 </div>
             </div>
-            <div class="md:h-full h-[350px] max-w-[600px] bg-cover bg-center" style={`background-image: url('${props.image_url}')`} />
+            <div class="md:h-full h-[350px] max-w-[600px]">
+                <img
+                    src={props.image_url}
+                    alt={props.name}
+                    class="h-full w-full object-cover object-center"
+                    loading="lazy"
+                />
+            </div>
         </a>
     );
 };
@@ -28,8 +34,13 @@ export const Label: Component = () => {
             <Header style="opacity-30" />
             <section id="music" class="w-screen text-white font-michroma md:pt-[50px] pt-[40px]">
                 <div class="w-screen md:grid block grid-cols-2 border-b border-white">
-                    <div class="md:h-[80vh] h-[70vh] order-2">
-                        <div class="h-full bg-cover bg-center" style={`background-image: url('${data.label.hero.image_url}')`} />
+                    <div class="md:h-[80vh] h-[70vh] order-2 relative">
+                        <img
+                            src={data.label.hero.image_url}
+                            alt="Album cover"
+                            class="h-full w-full object-cover object-center"
+                            loading="lazy"
+                        />
                     </div>
                     <div class="grid grid-rows-2 md:pl-[20px] pl-0 md:h-[80vh] h-[calc(30vh-40px)] order-1">
                         <div class="md:pt-0 pt-[20px]">

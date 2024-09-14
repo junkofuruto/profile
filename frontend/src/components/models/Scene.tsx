@@ -1,15 +1,18 @@
-import { createSignal, onMount, onCleanup, type Component } from "solid-js";
+import { createSignal, onMount, onCleanup } from "solid-js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { EffectComposer, RenderPass } from "postprocessing"
+import { EffectComposer, RenderPass } from "postprocessing";
 import * as THREE from "three";
 
 type SceneProps = {
-    postion?: THREE.Vector3,
-    rotation?: THREE.Euler,
-    scale?: THREE.Vector3,
-    model: string,
-    delta: number
+    position?: THREE.Vector3;
+    rotation?: THREE.Euler;
+    scale?: THREE.Vector3;
+    model: string;
+    delta: number;
 };
+
+const modelCache: Record<string, THREE.Group> = {};
+export const [loading, setLoading] = createSignal(true);
 
 export const Scene = (props: SceneProps) => {
     let containerRef: HTMLDivElement | null = null;
@@ -24,7 +27,7 @@ export const Scene = (props: SceneProps) => {
         const cameraInstance = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const rendererInstance = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         const composer = new EffectComposer(rendererInstance);
-        composer.addPass(new RenderPass(sceneInstance, cameraInstance))
+        composer.addPass(new RenderPass(sceneInstance, cameraInstance));
 
         rendererInstance.setSize(window.innerWidth, window.innerHeight);
         containerRef!.appendChild(rendererInstance.domElement);
@@ -42,27 +45,39 @@ export const Scene = (props: SceneProps) => {
 
         cameraInstance.position.set(0, 1, 4);
 
-        const loader = new GLTFLoader();
-        loader.load(
-            props.model,
-            (loadedGltf) => {
-                gltf = loadedGltf.scene;
-
-                if (props.postion != undefined) gltf.position.set(props.postion.x, props.postion.y, props.postion.z);
-                if (props.rotation != undefined) gltf.rotation.set(props.rotation.x, props.rotation.y, props.rotation.z);
-                if (props.scale != undefined) gltf.scale.set(props.scale.x, props.scale.y, props.scale.z);
-
+        const loadModel = (url: string) => {
+            if (modelCache[url]) {
+                gltf = modelCache[url].clone();
                 sceneInstance.add(gltf);
-                mixer = new THREE.AnimationMixer(gltf);
-                loadedGltf.animations.forEach((clip) => {
-                    mixer!.clipAction(clip).play();
-                });
-            },
-            undefined,
-            (error) => {
-                console.error("Error loading GLB model:", error);
+                setLoading(false);
+            } else {
+                const loader = new GLTFLoader();
+                loader.load(
+                    url,
+                    (loadedGltf) => {
+                        gltf = loadedGltf.scene;
+                        modelCache[url] = gltf;
+
+                        if (props.position) gltf.position.copy(props.position);
+                        if (props.rotation) gltf.rotation.copy(props.rotation);
+                        if (props.scale) gltf.scale.copy(props.scale);
+
+                        sceneInstance.add(gltf);
+                        mixer = new THREE.AnimationMixer(gltf);
+                        loadedGltf.animations.forEach((clip) => {
+                            mixer!.clipAction(clip).play();
+                        });
+                        setLoading(false);
+                    },
+                    undefined,
+                    (error) => {
+                        console.error("Error loading GLB model:", error);
+                    }
+                );
             }
-        );
+        };
+
+        loadModel(props.model);
 
         const animate = (deltaTime: number) => {
             requestAnimationFrame(() => animate(deltaTime));
@@ -86,9 +101,9 @@ export const Scene = (props: SceneProps) => {
         onCleanup(() => {
             window.removeEventListener("resize", resizeHandler);
             composer.dispose();
+            if (gltf) sceneInstance.remove(gltf);
         });
     });
 
-    return <div ref={containerRef!} style="absolute" />;
-
+    return <div ref={containerRef!} style="position: relative; width: 100%; height: 100%;" />;
 };
