@@ -24,13 +24,7 @@ export const data = {
                 genre: "GARAGE ROCK / BLACK NOISE",
                 image_url: "/images/artists/dontsleep.png",
                 href: "https://band.link/J2QUb"
-            },
-            // {
-            //     name: "CATAPHASIS KALOPSIA DREAMS",
-            //     genre: "ACID TECHO / HARSH NOISE",
-            //     image_url: "https://placehold.co/600x600",
-            //     href: ""
-            // },
+            }
         ]
     },
     dev: {
@@ -39,27 +33,37 @@ export const data = {
                 tags: "APPLICATION / MOBILE",
                 date: "2023 Q3",
                 name: "safit",
+                preview: "/images/projects/safit.jpg",
+                info: ""
             },
             {
                 tags: "GAME / BOT",
                 date: "2024 Q1",
-                name: "dadagames"
+                name: "dadagames",
+                preview: "/images/projects/dadagames.jpg",
+                info: ""
             },
             {
                 tags: "UTILS / NET",
                 date: "2023 Q3",
-                name: "ddef"
+                name: "ddef",
+                preview: "/images/projects/ddef.jpg",
+                info: ""
             },
             {
                 tags: "UTILS / OPENAI / BOT",
                 date: "2023 Q3",
-                name: "gptbot"
+                name: "gptbot",
+                preview: "/images/projects/gptbot.jpg",
+                info: ""
             },
             {
                 tags: "UTILS / BOT",
                 date: "2023 Q3",
-                name: "qrcodebot"
+                name: "qrcodebot",
+                preview: "/images/projects/qrcodebot.jpg",
+                info: ""
             },
         ]
     }
-};  
+};
