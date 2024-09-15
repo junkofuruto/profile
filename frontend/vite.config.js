@@ -9,7 +9,11 @@ export default defineConfig(() => {
         server:
         {
             host: "0.0.0.0",
-            port: "80",
+            port: "443",
+            https: {
+                key: fs.readFileSync(path.resolve(__dirname, 'certs', 'key.pem')),
+                cert: fs.readFileSync(path.resolve(__dirname, 'certs', 'cert.pem')),
+            },
             hmr: {
                 overlay: false
             }
