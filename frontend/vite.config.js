@@ -11,8 +11,8 @@ export default defineConfig(() => {
             host: "0.0.0.0",
             port: "443",
             https: {
-                key: fs.readFileSync(path.resolve(__dirname, 'certs', 'key.pem')),
-                cert: fs.readFileSync(path.resolve(__dirname, 'certs', 'cert.pem')),
+                key: fs.readFileSync("/etc/constuctmg/key.pem"),
+                cert: fs.readFileSync("/etc/constuctmg/cert.pem"),
             },
             hmr: {
                 overlay: false
