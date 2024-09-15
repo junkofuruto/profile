@@ -7,6 +7,7 @@ type ProjectCardProps = {
     tags: string;
     date: string;
     name: string;
+    image: string;
 };
 
 const ProjectCard: Component<ProjectCardProps> = (props: ProjectCardProps) => {
@@ -25,7 +26,7 @@ const ProjectCard: Component<ProjectCardProps> = (props: ProjectCardProps) => {
             </div>
             <div class="md:h-full h-[300px] overflow-hidden relative">
                 <img
-                    src={imageUrl}
+                    src={props.image}
                     alt={props.name}
                     class="absolute inset-0 h-full w-full object-cover"
                     loading="lazy"
@@ -58,7 +59,7 @@ export const Projects: Component = () => {
                 <div>
                     {
                         data.dev.projects.map((project) => (
-                            <ProjectCard tags={project.tags} date={project.date} name={project.name} />
+                            <ProjectCard tags={project.tags} date={project.date} name={project.name} image={project.preview} />
                         ))
                     }
                 </div>
