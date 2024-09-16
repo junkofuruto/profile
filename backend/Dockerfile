@@ -14,5 +14,4 @@ WORKDIR /root/
 COPY --from=builder /app/backend ./
 COPY .env ./
 RUN chmod +x ./backend
-EXPOSE 4000
 CMD ["./backend"]
