@@ -32,20 +32,28 @@ const SubmitButton: Component<{
     mail: Accessor<string>,
 }> = (props) => {
     const clickHandler = async () => {
-        const response = await fetch("https://constructmg.ru/api/contact", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                type: props.projectType(),
-                name: props.name(),
-                email: props.mail(),
-                message: props.description()
-            })
-        });
+        const serverURL = `${window.location.protocol}//${window.location.host}`;
+        const apiURL = `${serverURL}/api/contact`;
+        const message = `${props.name()} requested ${props.projectType()}.\n\n"${props.description()}"\n- ${props.mail()}`;
 
-        console.log(response.status);
+        try {
+            const response = await fetch(apiURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    text: message
+                }),
+            });
+
+            if (!response.ok) {
+                alert('Network response was not ok ' + response.statusText);
+            }
+
+            const data = await response.json();
+            console.log('Success!', data);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     return (
