@@ -43,7 +43,7 @@ export const data = {
                 name: "dadagames",
                 logo: "https://firebasestorage.googleapis.com/v0/b/constructmg-eb3ee.appspot.com/o/dadagames.jpg?alt=media&token=7fc78f35-3ca0-456b-a4a5-614eb0f26a12",
                 preview: "https://firebasestorage.googleapis.com/v0/b/constructmg-eb3ee.appspot.com/o/dadagames-preview.png?alt=media&token=69e658b4-4303-4110-9444-a22f5c3b2f6e",
-                info: "Project Overview:\nWe developed an innovative instant payout service integrated within a Telegram bot for the popular influencer Edward Bil. The project aimed to create a seamless user experience that allows fans and followers to engage through gaming and instant financial transactions."
+                info: "We developed an innovative instant payout service integrated within a Telegram bot for the popular influencer Edward Bil. The project aimed to create a seamless user experience that allows fans and followers to engage through gaming and instant financial transactions. The project successfully facilitated instant payouts and interactive gaming for Edward Bil's audience, resulting in increased user engagement and satisfaction. The integration of payment and gaming services in a user-friendly Telegram bot set a new benchmark for influencer-driven platforms."
             },
             {
                 tags: "UTILS / NET",
@@ -51,15 +51,15 @@ export const data = {
                 name: "ddef",
                 logo: "https://firebasestorage.googleapis.com/v0/b/constructmg-eb3ee.appspot.com/o/ddef-logo.png?alt=media&token=b16f9b71-408f-4a09-9179-0da4eaa0d9b9",
                 preview: "https://firebasestorage.googleapis.com/v0/b/constructmg-eb3ee.appspot.com/o/ddef-preview.jpg?alt=media&token=033204ad-875a-4f62-9c49-56ca41b38cc4",
-                info: "Data Defender - An application that allows you to analyze all traffic passing through your local network and many other options for managing it. Always remember in the modern global network the main thing is to be DEFended🛡 not offended😔. \n Check out the cool promotional video with a demo version of our product! https://www.youtube.com/watch?v=z37gezuzISU"
+                info: "Data Defender - An application that allows you to analyze all traffic passing through your local network and many other options for managing it. Always remember in the modern global network the main thing is to be DEFended not offended. \n Check out the cool promotional video with a demo version of our product!"
             },
             {
                 tags: "WEB / UI",
                 date: "Q2 2024",
                 name: "argus",
                 logo: "https://firebasestorage.googleapis.com/v0/b/constructmg-eb3ee.appspot.com/o/argus-logo.png?alt=media&token=5f1c664e-dca0-4280-8f0c-e0696270726f",
-                preview: "https://firebasestorage.googleapis.com/v0/b/constructmg-eb3ee.appspot.com/o/argus-preview.jpg?alt=media&token=96768d9a-53ab-40ef-8d89-e40e2f028d0e",
-                info: "Argus Telemetry Service \n Argus Panoptes, also known as Argus, was a character in Greek mythology known for his extraordinary ability to see all things. Argus - a toolkit you can use to gather telemetry data from your apps or services for ur own/"
+                preview: "https://firebasestorage.googleapis.com/v0/b/constructmg-eb3ee.appspot.com/o/argus-preview.jpg?alt=media&token=741e5169-de97-48f3-b482-7ca3d052ba02",
+                info: "Argus Telemetry Service Argus Panoptes, also known as Argus, was a character in Greek mythology known for his extraordinary ability to see all things. Argus - a toolkit you can use to gather telemetry data from your apps or services for ur own"
             },
             {
                 tags: "UTILS / API / BOT",

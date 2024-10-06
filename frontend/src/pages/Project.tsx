@@ -25,7 +25,7 @@ export const Project = () => {
 
                     <div class="mr-[2vw] md:ml-0 ml-[2vw]">
                         <p class="md:text-[4.5vw] text-[2.5rem] md:text-left text-center">{project?.name.toUpperCase()}</p>
-                        <p class="text-justify ml-[0.3vw]">{project?.info}</p>
+                        <p class="text-justify text-[1rem] ml-[0.3vw]">{project?.info}</p>
                     </div>
                 </div>
                 <div class="border-t border-white grid grid-cols-2 md:h-[calc(13vh-50px)] h-[calc(13vh-40px)] px-[15px]">
