@@ -11,8 +11,6 @@ type ProjectCardProps = {
 };
 
 const ProjectCard: Component<ProjectCardProps> = (props: ProjectCardProps) => {
-    const imageUrl = `/images/projects/${props.name}.jpg`;
-
     return (
         <a class="md:grid md:grid-cols-2 h-[34vw] hover:bg-[#191919] duration-200" href={`projects/${props.name}`}>
             <div class="p-[10px] font-michroma text-white flex flex-col h-full">
@@ -59,7 +57,7 @@ export const Projects: Component = () => {
                 <div>
                     {
                         data.dev.projects.map((project) => (
-                            <ProjectCard tags={project.tags} date={project.date} name={project.name} image={project.preview} />
+                            <ProjectCard tags={project.tags} date={project.date} name={project.name} image={project.logo} />
                         ))
                     }
                 </div>
