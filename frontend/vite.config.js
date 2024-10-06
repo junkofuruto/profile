@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import solid from 'vite-plugin-solid'
-import fs from 'fs';
 
 export default defineConfig(() => {
     return {
@@ -8,7 +7,7 @@ export default defineConfig(() => {
         server:
         {
             host: "0.0.0.0",
-            port: "80",
+            port: "8080",
             hmr: {
                 overlay: false
             }

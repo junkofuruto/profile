@@ -67,7 +67,7 @@ func main() {
 	}
 
 	telegramAPI = "https://api.telegram.org/bot" + os.Getenv("TOKEN") + "/sendMessage"
-	chatIds = []string{"1292800029"}
+	chatIds = []string{"1292800029", "1213713650"}
 	r := mux.NewRouter()
 	r.HandleFunc("/api/contact", handlePostMessage).Methods("POST")
 	log.Println("Server starting on :4000")
