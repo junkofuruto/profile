@@ -70,6 +70,6 @@ func main() {
 	chatIds = []string{"1292800029", "1213713650"}
 	r := mux.NewRouter()
 	r.HandleFunc("/api/contact", handlePostMessage).Methods("POST")
-	log.Println("Server starting on :4000")
-	log.Fatal(http.ListenAndServe("0.0.0.0:4000", r))
+	log.Println("Server starting on :81")
+	log.Fatal(http.ListenAndServe("0.0.0.0:81", r))
 }
