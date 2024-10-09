@@ -45,9 +45,11 @@ func sendMessageToTelegram(message string, chatId string) error {
 func handlePostMessage(w http.ResponseWriter, r *http.Request) {
 	var msg Message
 	if err := json.NewDecoder(r.Body).Decode(&msg); err != nil {
+		log.Printf("error handlePostMessage(): %s", err.Error())
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+	log.Printf("call handlePostMessage(): %s", msg.Text)
 
 	for _, chatId := range chatIds {
 		if err := sendMessageToTelegram(msg.Text, chatId); err != nil {
@@ -61,6 +63,7 @@ func handlePostMessage(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	host := "0.0.0.0:81"
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -70,6 +73,6 @@ func main() {
 	chatIds = []string{"1292800029", "1213713650"}
 	r := mux.NewRouter()
 	r.HandleFunc("/api/contact", handlePostMessage).Methods("POST")
-	log.Println("Server starting on :81")
-	log.Fatal(http.ListenAndServe("0.0.0.0:81", r))
+	log.Printf("server starting on %s", host)
+	log.Fatal(http.ListenAndServe(host, r))
 }
