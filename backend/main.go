@@ -3,12 +3,12 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"log"
 	"net/http"
 	"os"
 
-	"github.com/gorilla/mux"
-	"github.com/joho/godotenv"
+	mux "github.com/gorilla/mux"
+	env "github.com/joho/godotenv"
+	log "github.com/rs/zerolog/log"
 )
 
 type Message struct {
@@ -43,16 +43,17 @@ func sendMessageToTelegram(message string, chatId string) error {
 }
 
 func handlePostMessage(w http.ResponseWriter, r *http.Request) {
+	log.Info().Msg("sending request message")
 	var msg Message
 	if err := json.NewDecoder(r.Body).Decode(&msg); err != nil {
-		log.Printf("error handlePostMessage(): %s", err.Error())
+		log.Warn().Msg("invalid request format")
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	log.Printf("call handlePostMessage(): %s", msg.Text)
 
 	for _, chatId := range chatIds {
 		if err := sendMessageToTelegram(msg.Text, chatId); err != nil {
+			log.Err(err).Msg("unable to send telegram message")
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -64,9 +65,9 @@ func handlePostMessage(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	host := "0.0.0.0:81"
-	err := godotenv.Load()
+	err := env.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Fatal().Msg("Error loading .env file")
 	}
 
 	telegramAPI = "https://api.telegram.org/bot" + os.Getenv("TOKEN") + "/sendMessage"
@@ -74,5 +75,5 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/api/contact", handlePostMessage).Methods("POST")
 	log.Printf("server starting on %s", host)
-	log.Fatal(http.ListenAndServe(host, r))
+	http.ListenAndServe(host, r)
 }
