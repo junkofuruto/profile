@@ -8,6 +8,7 @@ type ProjectCardProps = {
     date: string;
     name: string;
     image: string;
+    accent: string;
 };
 
 const ProjectCard: Component<ProjectCardProps> = (props: ProjectCardProps) => {
@@ -22,16 +23,15 @@ const ProjectCard: Component<ProjectCardProps> = (props: ProjectCardProps) => {
                     <p class="md:text-[3vw] text-[32px] uppercase">{props.name}</p>
                 </div>
             </div>
-            <div class="md:h-full h-[300px] overflow-hidden relative">
+            <div class="md:h-full h-[300px] overflow-hidden relative" style={{ "background-color": props.accent }}>
                 <img
                     src={props.image}
                     alt={props.name}
-                    class="absolute inset-0 h-full w-full object-cover"
+                    class="absolute inset-0 h-full w-auto object-cover mx-auto"
                     loading="lazy"
                 />
             </div>
         </a>
-
     );
 };
 
@@ -57,7 +57,7 @@ export const Projects: Component = () => {
                 <div>
                     {
                         data.dev.projects.map((project) => (
-                            <ProjectCard tags={project.tags} date={project.date} name={project.name} image={project.logo} />
+                            <ProjectCard tags={project.tags} date={project.date} name={project.name} image={project.logo} accent={project.accent} />
                         ))
                     }
                 </div>
