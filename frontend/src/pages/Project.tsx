@@ -4,6 +4,28 @@ import { Header } from "../components/Header";
 import { NotFound } from "./NotFound";
 import { data } from "../data.jsx"
 
+const TitleBlock = (props: { name: string, date: string, tags: string }) => {
+    return (
+        <div class="font-michroma text-white">
+            <div class="h-[25vh] flex items-center">
+                <p class="md:ml-[1vw] ml-5 md:text-[5vw] text-[2.5rem]">{props.name.toUpperCase()}</p>
+            </div >
+            <div class="min-h-[3vw] md:mx-[1vw] mx-5 mb-2 grid grid-cols-2 md:text-[1.5rem] text-[1rem] items-center">
+                <p>{props.date}</p>
+                <p class="text-right">{props.tags}</p>
+            </div>
+        </div>
+    )
+}
+
+const PreviewBlock = (props: { type: string, data: string }) => {
+    return (
+        <div class="w-screen">
+            <img class="w-full" src={props.data} />
+        </div>
+    )
+}
+
 export const Project = () => {
     const { name } = useParams();
     const project = data.dev.projects.find(project => project.name === name);
@@ -13,25 +35,15 @@ export const Project = () => {
     return (
         <Show when={project} fallback={<NotFound />}>
             <Header style="opacity-30" />
-            <section class="font-michroma text-white md:pt-[50px] pt-[40px] h-screen">
-                <div class="md:grid md:grid-cols-2 block h-[87vh]">
-                    <div class="md:h-[87vh] w-full">
-                        <img
-                            src={project?.preview}
-                            class="md:h-full h-[20vh] md:mb-0 mb-[3vh] w-full object-cover object-center md:pr-[2vw] p-0 md:block hidden"
-                            loading="lazy"
-                        />
-                    </div>
-
-                    <div class="mr-[2vw] md:ml-0 ml-[2vw]">
-                        <p class="md:text-[4.5vw] text-[2.5rem] md:text-left text-center">{project?.name.toUpperCase()}</p>
-                        <p class="text-justify text-[1rem] ml-[0.3vw]">{project?.info}</p>
-                    </div>
-                </div>
-                <div class="border-t border-white grid grid-cols-2 md:h-[calc(13vh-50px)] h-[calc(13vh-40px)] px-[15px]">
-                    <p class="text-left my-auto">{project?.date}</p>
-                    <p class="text-right my-auto">{project?.tags}</p>
-                </div>
+            <section class="font-michroma min-h-screen md:pt-[50px] pt-[40px]">
+                <TitleBlock name={project!.name} date={project!.date} tags={project!.tags} />
+                {
+                    project?.data.map((data) => {
+                        switch (data.type) {
+                            case "preview": return <PreviewBlock type={data.type} data={data.data} />;
+                        }
+                    })
+                }
             </section>
         </Show>
     );
